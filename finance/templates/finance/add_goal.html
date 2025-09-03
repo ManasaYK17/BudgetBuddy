@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Financial Goal</title>
+    <style>
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #e3f2fd; overflow: hidden; }
+        .center-box { background: rgba(255,255,255,0.95); padding: 40px 60px; border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.1); text-align: center; z-index: 2; }
+        .blueberry { position: absolute; width: 40px; height: 40px; background: radial-gradient(circle at 15px 15px, #4f5bd5 70%, #2a2f4a 100%); border-radius: 50%; box-shadow: 0 0 10px #4f5bd5; animation: float 8s infinite linear; }
+        @keyframes float { 0% { transform: translateY(0) scale(1); } 50% { transform: translateY(-60px) scale(1.1); } 100% { transform: translateY(0) scale(1); } }
+    </style>
+</head>
+<body>
+    <div class="center-box">
+        <h2>Add Financial Goal</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Add Goal</button>
+        </form>
+        <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+    </div>
+    <div class="blueberry" style="top:10%;left:20%;animation-delay:0s;"></div>
+    <div class="blueberry" style="top:70%;left:80%;animation-delay:2s;"></div>
+    <div class="blueberry" style="top:50%;left:60%;animation-delay:4s;"></div>
+    <div class="blueberry" style="top:30%;left:40%;animation-delay:1s;"></div>
+    <div class="blueberry" style="top:80%;left:10%;animation-delay:3s;"></div>
+</body>
+</html>

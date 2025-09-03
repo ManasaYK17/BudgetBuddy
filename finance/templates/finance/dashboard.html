@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <style>
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #e3f2fd; overflow: hidden; }
+        .center-box { background: rgba(255,255,255,0.95); padding: 60px 100px; min-width: 700px; min-height: 600px; border-radius: 30px; box-shadow: 0 12px 48px rgba(0,0,0,0.15); text-align: center; z-index: 2; font-size: 1.35rem; }
+    .blueberry { position: absolute; width: 40px; height: 40px; background: radial-gradient(circle at 15px 15px, #4f5bd5 70%, #2a2f4a 100%); border-radius: 50%; box-shadow: 0 0 10px #4f5bd5; animation: float 8s infinite linear; z-index: 1; }
+    @keyframes float { 0% { transform: translateY(0) scale(1); } 50% { transform: translateY(-60px) scale(1.1); } 100% { transform: translateY(0) scale(1); } }
+    </style>
+</head>
+<body>
+    <div class="center-box">
+        <div id="analytics-graphs" style="margin:40px 0 0 0;">
+            <!-- Graphs will be rendered here -->
+        </div>
+    <h2>Dashboard</h2>
+    <a href="{% url 'logout' %}" style="position:absolute;top:20px;right:40px;font-size:1.1em;">Logout</a>
+        <form method="post" style="margin-bottom:20px;">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Set Daily Limit</button>
+        </form>
+        <form method="post" style="margin-bottom:20px;">
+        <a href="{% url add_expense_url %}">Add Expense</a>
+        <a href="{% url 'analytics' %}" class="btn btn-info" style="margin-left: 20px;">View Expense Graphs</a>
+        <br><br>
+        <p>Today's Total Expense: ${{ total_today }}</p>
+        {% if daily_limit %}
+            <p>Daily Limit: ${{ daily_limit }}</p>
+            {% if limit_exceeded %}
+                <div style="color: red; font-size: 2em; font-weight: bold; margin: 20px 0;">LIMIT EXCEEDED!</div>
+            {% endif %}
+            <a href="?show_balance={% if show_balance %}0{% else %}1{% endif %}" style="display:inline-block;margin-top:10px;padding:10px 20px;background:#4f5bd5;color:#fff;border-radius:8px;text-decoration:none;">{% if show_balance %}Hide Balance{% else %}View Balance{% endif %}</a>
+            {% if show_balance %}
+                <table style="margin: 20px auto; border-collapse: collapse; width: 60%;">
+                    <tr><th style="background:#4f5bd5;color:#fff;">Remaining Balance</th></tr>
+                    <tr><td style="font-size:1.5em;">${{ balance }}</td></tr>
+                </table>
+            {% endif %}
+        {% endif %}
+    </div>
+    <!-- Realistic Blueberries and Strawberries -->
+    <div class="blueberry" style="top:10%;left:20%;animation-delay:0s;"></div>
+    <div class="blueberry" style="top:70%;left:80%;animation-delay:2s;"></div>
+    <div class="blueberry" style="top:50%;left:60%;animation-delay:4s;"></div>
+    <div class="blueberry" style="top:30%;left:40%;animation-delay:1s;"></div>
+    <div class="blueberry" style="top:80%;left:10%;animation-delay:3s;"></div>
+    <div class="blueberry" style="top:15%;left:50%;animation-delay:1.5s;"></div>
+    <div class="blueberry" style="top:60%;left:30%;animation-delay:2.5s;"></div>
+    <div class="blueberry" style="top:40%;left:70%;animation-delay:3.5s;"></div>
+    <div class="blueberry" style="top:85%;left:60%;animation-delay:4.5s;"></div>
+</body>
+</html>

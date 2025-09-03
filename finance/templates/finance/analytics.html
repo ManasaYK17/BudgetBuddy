@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spending Analytics</title>
+    <style>
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #e3f2fd; overflow: hidden; }
+        .center-box { background: rgba(255,255,255,0.95); padding: 40px 60px; border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.1); text-align: center; z-index: 2; }
+        table { margin: 0 auto; border-collapse: collapse; width: 80%; }
+        th, td { border: 1px solid #b3c7f7; padding: 8px 12px; }
+        th { background: #4f5bd5; color: #fff; }
+        .blueberry { position: absolute; width: 40px; height: 40px; background: radial-gradient(circle at 15px 15px, #4f5bd5 70%, #2a2f4a 100%); border-radius: 50%; box-shadow: 0 0 10px #4f5bd5; animation: float 8s infinite linear; }
+        @keyframes float { 0% { transform: translateY(0) scale(1); } 50% { transform: translateY(-60px) scale(1.1); } 100% { transform: translateY(0) scale(1); } }
+    </style>
+</head>
+<body>
+    <div class="center-box">
+        <h2>Spending Analytics</h2>
+        <table>
+            <tr><th>Total Spent</th></tr>
+            {% for stat in stats %}
+                <tr><td>${{ stat.total }}</td></tr>
+            {% empty %}
+                <tr><td>No expenses found.</td></tr>
+            {% endfor %}
+            <tr><th>${{ total_spent }}</th></tr>
+        </table>
+            <h2>Expense Analytics</h2>
+            <div style="display:flex;gap:40px;justify-content:center;align-items:flex-start;">
+                <div>
+                    <h3>Expense Breakdown (Pie)</h3>
+                    <canvas id="pieChart" width="400" height="400"></canvas>
+                </div>
+                <div>
+                    <h3>Expense Over Time (Line)</h3>
+                    <canvas id="lineChart" width="400" height="400"></canvas>
+                </div>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+                // Pie chart for expense breakdown
+                const pieLabels = JSON.parse('{{ chart_labels|escapejs }}');
+                const pieData = JSON.parse('{{ chart_data|escapejs }}');
+                new Chart(document.getElementById('pieChart'), {
+                    type: 'pie',
+                    data: {
+                        labels: pieLabels,
+                        datasets: [{
+                            data: pieData,
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.7)',
+                                'rgba(255, 99, 132, 0.7)',
+                                'rgba(255, 206, 86, 0.7)',
+                                'rgba(75, 192, 192, 0.7)',
+                                'rgba(153, 102, 255, 0.7)',
+                                'rgba(255, 159, 64, 0.7)'
+                            ],
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            title: { display: true, text: 'What You Spent On' }
+                        }
+                    }
+                });
+
+                // Line chart for expenses over time
+                const lineLabels = JSON.parse('{{ line_labels|escapejs }}');
+                const lineData = JSON.parse('{{ line_data|escapejs }}');
+                new Chart(document.getElementById('lineChart'), {
+                    type: 'line',
+                    data: {
+                        labels: lineLabels,
+                        datasets: [{
+                            label: 'Total Spent',
+                            data: lineData,
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { display: true },
+                            title: { display: true, text: 'Expense Trace After Limit Set' }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            </script>
+        <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+    </div>
+    <div class="blueberry" style="top:10%;left:20%;animation-delay:0s;"></div>
+    <div class="blueberry" style="top:70%;left:80%;animation-delay:2s;"></div>
+    <div class="blueberry" style="top:50%;left:60%;animation-delay:4s;"></div>
+    <div class="blueberry" style="top:30%;left:40%;animation-delay:1s;"></div>
+    <div class="blueberry" style="top:80%;left:10%;animation-delay:3s;"></div>
+</body>
+</html>
