@@ -1,8 +1,8 @@
-# 💸 Daily Spending Limit Tracker
+# 💸 BUDGETBUDDY
 
 ## 📌 Project Overview
 
-**Daily Spending Limit Tracker** is a simple and intuitive application that helps users:
+**Budget Buddy** is a simple and intuitive application that helps users:
 
 - ✨ Set a daily budget  
 - 💰 Add & manage expenses  
